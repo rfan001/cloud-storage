@@ -1,10 +1,7 @@
 package com.yowbuy.cloudstorage.mapper;
 
 import com.yowbuy.cloudstorage.model.UploadedFile;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,4 +17,7 @@ public interface FileMapper {
 
     @Select("SELECT fileid, filename FROM FILES")
     List<UploadedFile> getFiles();
+
+    @Delete("DELETE FROM FILES WHERE fileid = #{fileId}")
+    int deleteFile(Integer fileId);
 }

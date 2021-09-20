@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +22,8 @@ public class DownloadController {
     }
 
     @GetMapping
+    @ResponseBody
     public String download(@RequestParam("id")Integer fileId, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        System.out.println("here");
-        fileService.downFileByBlob(request, response, fileId);
-        return "home";
+        return fileService.downFileByBlob(request, response, fileId);
     }
 }

@@ -57,12 +57,10 @@ public class FileService {
     public void getFile(HttpServletRequest request, HttpServletResponse response, Integer fileId) throws UnsupportedEncodingException {
         downFileByBlob(request, response, fileId);
     }
-    public void downFileByBlob(HttpServletRequest request, HttpServletResponse response, Integer fileId) throws UnsupportedEncodingException {
+    public String downFileByBlob(HttpServletRequest request, HttpServletResponse response, Integer fileId) throws UnsupportedEncodingException {
         UploadedFile uploadedFile = null;
-        System.out.println(fileId);
         uploadedFile = fileMapper.getFile(fileId);
         if(uploadedFile!=null){
-            System.out.println("there");
             String filename = uploadedFile.getFilename();
             String useAgent = request.getHeader("user-agent").toLowerCase();
             if(useAgent.contains("mise") || useAgent.contains("like gecko")){
@@ -71,17 +69,25 @@ public class FileService {
                 filename = new String(filename.getBytes(StandardCharsets.UTF_8), "iso-8859-1");
             }
             try {
+                response.reset();
                 byte[] fileStream = uploadedFile.getFileData();
                 response.setContentType("application/x-msdownload");
                 response.setCharacterEncoding("UTF-8");
                 response.setHeader("Content-Disposition", "attachment; filename="+filename);
-                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+                OutputStream toClient = new DataOutputStream(response.getOutputStream());
                 toClient.write(fileStream);
+
                 toClient.flush();
                 toClient.close();
+                return "Success";
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return "Failed";
+    }
+
+    public int deleteFile(Integer fileId){
+        return fileMapper.deleteFile(fileId);
     }
 }
