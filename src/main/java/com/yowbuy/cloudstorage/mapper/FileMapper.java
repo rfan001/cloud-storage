@@ -12,12 +12,16 @@ public interface FileMapper {
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     int uploadFile(UploadedFile file);
 
-    @Select("SELECT * FROM FILES WHERE fileid = #{fileId}")
-    UploadedFile getFile(Integer fileId);
+    @Select("SELECT * FROM FILES WHERE fileid = #{id}")
+    UploadedFile getFile(Integer id);
 
     @Select("SELECT fileid, filename FROM FILES")
     List<UploadedFile> getFiles();
 
     @Delete("DELETE FROM FILES WHERE fileid = #{fileId}")
     int deleteFile(Integer fileId);
+
+    @Select("SELECT * FROM FILES WHERE filename = #{filename}")
+    UploadedFile getFileByName(String filename);
+
 }

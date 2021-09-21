@@ -19,6 +19,6 @@ public class DeleteFileController {
     @GetMapping
     public String deleteFile(@RequestParam("id") Integer fileId){
         fileService.deleteFile(fileId);
-        return "home";
+        return "redirect:/home";
     }
 }

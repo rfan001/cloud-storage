@@ -90,4 +90,10 @@ public class FileService {
     public int deleteFile(Integer fileId){
         return fileMapper.deleteFile(fileId);
     }
+
+    public boolean filenameIsAvailable(String filename){
+        UploadedFile uploadedFile = fileMapper.getFileByName(filename);
+        if(uploadedFile!=null) return false;
+        return true;
+    }
 }
